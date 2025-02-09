@@ -19,7 +19,7 @@ const ContestQuestion = () => {
 
       
       const response = await axios.post(
-        'http://localhost:8080/post/answer',
+        'https://quiz-platform-rju6.onrender.com/post/answer',
         { UserId, ContestId, QuestionId, selectedOption: option }, 
         {
           headers: {

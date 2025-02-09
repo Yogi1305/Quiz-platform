@@ -12,7 +12,7 @@ const Contest = () => {
         try {
             setLoading(true);
             axios.defaults.withCredentials = true;
-            const response = await axios.get('http://localhost:8080/post/getcontest', {
+            const response = await axios.get('https://quiz-platform-rju6.onrender.com/post/getcontest', {
                 headers: {
                     'Content-Type': 'application/json',
                 },

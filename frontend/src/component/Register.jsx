@@ -38,7 +38,7 @@ const RegistrationForm = () => {
     
     try {
       axios.defaults.withCredentials=true;
-      const response = await axios.post('http://localhost:8080/register', formData,{
+      const response = await axios.post('https://quiz-platform-rju6.onrender.com/register', formData,{
         headers: {
           'Content-Type': 'application/json',
         

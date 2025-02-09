@@ -7,7 +7,7 @@ const Home = () => {
      try {
 
       axios.defaults.withCredentials = true;
-      const response = await axios.get('http://localhost:8080/checklogged',  {
+      const response = await axios.get('https://quiz-platform-rju6.onrender.com/checklogged',  {
         headers: {
           'Content-Type': 'application/json',
         },

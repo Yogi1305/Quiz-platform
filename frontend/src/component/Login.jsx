@@ -24,7 +24,7 @@ const LoginForm = () => {
 
     try {
       axios.defaults.withCredentials = true;
-      const response = await axios.post('http://localhost:8080/login', formData, {
+      const response = await axios.post('https://quiz-platform-rju6.onrender.com/login', formData, {
         headers: {
           'Content-Type': 'application/json',
         },
