@@ -8,7 +8,7 @@ import cors from "cors";
 dotenv.config();
 
 const app =express();
-app.use(cors({origin: 'https://quizzy13.vercel.app/', // specify the frontend origin
+app.use(cors({origin: 'https://quizzy13.vercel.app', // specify the frontend origin
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept'], 
     credentials:true}));
