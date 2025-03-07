@@ -8,7 +8,9 @@ import cors from "cors";
 dotenv.config();
 
 const app =express();
-app.use(cors({origin: 'https://quizzy13.vercel.app', // specify the frontend origin
+app.use(cors({
+    // origin: 'https://quizzy13.vercel.app', 
+    origin:'http://localhost:5175',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept'], 
     credentials:true}));
@@ -21,7 +23,9 @@ connectDb();
 app.use("/",userRoute);
 app.use("/post",postRoute);
 
-app.listen(8080,()=>{
+app.listen(8000 ,()=>{
+    
     console.log("server is established");
     
-})
+});
+

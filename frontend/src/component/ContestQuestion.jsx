@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { Baseurl } from "../main";
 
 const ContestQuestion = () => {
   const location = useLocation();
@@ -17,10 +18,9 @@ const ContestQuestion = () => {
       const UserId = localStorage.getItem("userId");
       const ContestId = contest._id;
 
-      
       const response = await axios.post(
-        'https://quiz-platform-rju6.onrender.com/post/answer',
-        { UserId, ContestId, QuestionId, selectedOption: option }, 
+        `${Baseurl}/post/answer`,
+        { UserId, ContestId, QuestionId, selectedOption: option },
         {
           headers: {
             'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ const ContestQuestion = () => {
       );
 
       console.log("Answer submitted successfully:", response.data);
-      
+
       // Disable the button after answering the question
       setDisabledQuestions((prevState) => ({
         ...prevState,
@@ -48,8 +48,8 @@ const ContestQuestion = () => {
           {contest.title}
         </h1>
         <ul className="space-y-6">
-          {contest.QuestionSet.map((item, index) => (
-            <li key={index} className="p-4 bg-gray-50 rounded-lg shadow-sm">
+          {contest.QuestionSet.map((item) => (
+            <li key={item._id} className="p-4 bg-gray-50 rounded-lg shadow-sm">
               <h3 className="text-xl font-medium text-gray-800 mb-4">
                 {item.Question}
               </h3>
@@ -62,10 +62,12 @@ const ContestQuestion = () => {
                     <div className="flex flex-wrap gap-4">
                       <button
                         disabled={disabledQuestions[item._id]} // Disable button for this question if answered
-                        className={`px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg cursor-pointer ${
-                          disabledQuestions[item._id] ? "bg-gray-500" : ""
-                        } hover:bg-blue-600 transition duration-300`}
-                        onClick={() => handleOptionClick(option, item._id)} // Pass correct QuestionId
+                        className={`px-4 py-2 text-white font-semibold rounded-lg cursor-pointer transition duration-300 ${
+                          disabledQuestions[item._id] 
+                            ? "bg-gray-500" // Disabled button color
+                            : "bg-blue-500 hover:bg-blue-600"
+                        }`}
+                        onClick={() => handleOptionClick(option, item._id)} // Pass the correct QuestionId
                       >
                         {option}
                       </button>
