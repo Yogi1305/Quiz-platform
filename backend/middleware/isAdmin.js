@@ -20,7 +20,9 @@ export const isAdmin = async (req, res, next) => {
     if (user.isAdmin) {
       return next(); 
     } else {
-      return res.status(403).json({ message: "You are not an admin" });
+      return res.status(403).json({ message: "You are not an admin",
+        success:false
+       });
     }
   } catch (error) {
     console.error("Error in isadmin middleware:", error);

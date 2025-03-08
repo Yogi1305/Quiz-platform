@@ -86,3 +86,8 @@ export const login=async(req,res)=>{
     export const checklogging=async(req,res)=>{
           return res.status(200).json({success:true});
     }
+// admin
+
+export const Admin= (req,res)=>{
+      return res.status(200).json({message:"admin",success:true})
+}

@@ -22,7 +22,28 @@ const Contest = () => {
     const [loading, setLoading] = useState(false);
     const [activeFilter, setActiveFilter] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
+    const [isAdmin, setIsAdmin] = useState(false);  // New state to track admin status
     const navigate = useNavigate();
+
+    // Check if user is admin
+    const checkAdminStatus = async () => {
+        try {
+            axios.defaults.withCredentials = true;
+            const response = await axios.get(`${Baseurl}/isadmin`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                withCredentials: true,
+            });
+            
+            if (response.data.success) {
+                setIsAdmin(true);
+            }
+        } catch (error) {
+            console.log("Error checking admin status:", error);
+            setIsAdmin(false);
+        }
+    };
 
     const getContests = async () => {
         try {
@@ -45,6 +66,7 @@ const Contest = () => {
 
     useEffect(() => {
         getContests();
+        checkAdminStatus(); // Check admin status when component mounts
     }, []);
 
     const handleJoinContest = (contestId, contest) => {
@@ -55,6 +77,10 @@ const Contest = () => {
             console.log("Error while navigating to ContestQuestion:", error);
             toast.error("Failed to join contest. Please try again.");
         }
+    };
+
+    const handleCreateContest = () => {
+        navigate("/create-contest"); // Navigate to create contest page
     };
 
     // Filter contests based on search query and active filter
@@ -116,12 +142,27 @@ const Contest = () => {
 
             {/* Page Content */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                {/* Header Section */}
-                <div className="text-center mb-12">
+                {/* Header Section with Admin Button */}
+                <div className="text-center mb-12 relative">
                     <h1 className="text-4xl font-bold text-white mb-4">Available Contests</h1>
                     <p className="text-xl text-indigo-100 max-w-3xl mx-auto">
                         Challenge yourself with our curated collection of quizzes and compete with others.
                     </p>
+                    
+                    {/* Admin Create Contest Button */}
+                    {isAdmin && (
+                        <div className="mt-6">
+                            <button
+                                onClick={handleCreateContest}
+                                className="px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-medium rounded-lg shadow-lg transition-colors duration-300 flex items-center mx-auto"
+                            >
+                                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                </svg>
+                                Create New Contest
+                            </button>
+                        </div>
+                    )}
                 </div>
 
                 {/* Filters and Search */}
