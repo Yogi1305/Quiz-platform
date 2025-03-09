@@ -9,6 +9,7 @@ import Home from "./component/Home";
 import { useContext } from "react";
 import { createContext } from "react";
 import QuizResults from "./component/QuizResults";
+import ContestCreation from "./component/ContestCreation";
 
 const router=createBrowserRouter([
   {
@@ -35,6 +36,9 @@ const router=createBrowserRouter([
   },{
     path:"/result",
     element:<QuizResults/>
+  },{
+    path:"/createcontest",
+    element:<ContestCreation/>
   }
 ]);
 
