@@ -6,10 +6,10 @@ import RegistrationForm from './component/Register'
 import Contest from "./component/Contest";
 import ContestQuestion from "./component/ContestQuestion";
 import Home from "./component/Home";
-import { useContext } from "react";
-import { createContext } from "react";
+
 import QuizResults from "./component/QuizResults";
 import ContestCreation from "./component/ContestCreation";
+import { ToastContainer } from "react-toastify";
 
 const router=createBrowserRouter([
   {
@@ -49,7 +49,7 @@ function App() {
     
     <div className='w-lg h-screen  bg-cyan-200'>
       
-     
+     <ToastContainer/>
       <RouterProvider router={router}/>
        
     </div>

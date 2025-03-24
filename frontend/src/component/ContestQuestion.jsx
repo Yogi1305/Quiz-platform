@@ -88,7 +88,7 @@ const ContestQuestion = () => {
           </h1>
           <div className="mt-4 flex justify-center">
             <div className="px-4 py-2 bg-purple-600/50 rounded-full text-white text-sm font-medium">
-              Question {currentQuestionIndex + 1} of {contest.QuestionSet.length}
+              Question {currentQuestionIndex + 1} of {contest?.QuestionSet.length}
             </div>
           </div>
         </motion.div>
@@ -96,14 +96,14 @@ const ContestQuestion = () => {
         {/* Question Navigation */}
         <div className="flex justify-center mb-6 overflow-x-auto py-2 px-4 bg-white/5 backdrop-blur-sm rounded-xl">
           <div className="flex space-x-2">
-            {contest.QuestionSet.map((_, index) => (
+            {contest?.QuestionSet.map((_, index) => (
               <button
                 key={index}
                 onClick={() => navigateToQuestion(index)}
                 className={`h-10 w-10 rounded-full flex items-center justify-center transition-all ${
                   index === currentQuestionIndex
                     ? "bg-purple-600 text-white font-bold"
-                    : disabledQuestions[contest.QuestionSet[index]._id]
+                    : disabledQuestions[contest?.QuestionSet[index]._id]
                     ? "bg-green-500 text-white"
                     : "bg-white/20 text-white hover:bg-white/30"
                 }`}
@@ -124,13 +124,13 @@ const ContestQuestion = () => {
         >
           <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-5">
             <h3 className="text-xl md:text-2xl font-bold text-white">
-              {currentQuestion.Question}
+              {currentQuestion?.Question}
             </h3>
           </div>
 
           <div className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {currentQuestion.Options.map((option, optionIndex) => (
+              {currentQuestion?.Options.map((option, optionIndex) => (
                 <motion.button
                   key={optionIndex}
                   whileHover={{ scale: 1.02 }}

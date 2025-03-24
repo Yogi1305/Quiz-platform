@@ -21,17 +21,18 @@ const Contest = () => {
     const [contests, setContests] = useState([]);
     const [loading, setLoading] = useState(false);
     const [activeFilter, setActiveFilter] = useState('all');
-    const [searchQuery, setSearchQuery] = useState('');
-    const [isAdmin, setIsAdmin] = useState(false);  // New state to track admin status
+    const [isAdmin, setIsAdmin] = useState(false);
     const navigate = useNavigate();
 
     // Check if user is admin
     const checkAdminStatus = async () => {
+        const UserId = localStorage.getItem("userId");
         try {
             axios.defaults.withCredentials = true;
             const response = await axios.get(`${Baseurl}/isadmin`, {
                 headers: {
                     'Content-Type': 'application/json',
+                    'X-User-Id': UserId
                 },
                 withCredentials: true,
             });
@@ -80,31 +81,27 @@ const Contest = () => {
     };
 
     const handleCreateContest = () => {
-        navigate("/create-contest"); // Navigate to create contest page
+        navigate("/createcontest"); // Navigate to create contest page
     };
 
-    // Filter contests based on search query and active filter
+    // Filter contests based on active filter
     const filteredContests = contests.filter(contest => {
-        const matchesSearch = contest.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                            (contest.description && contest.description.toLowerCase().includes(searchQuery.toLowerCase()));
-        
-        if (activeFilter === 'all') return matchesSearch;
+        if (activeFilter === 'all') return true;
         if (activeFilter === 'upcoming') {
             // Example filtering logic - adjust based on your data structure
-            return matchesSearch && new Date(contest.startTime) > new Date();
+            return new Date(contest.startTime) > new Date();
         }
         if (activeFilter === 'active') {
             // Example filtering logic - adjust based on your data structure
             const now = new Date();
-            return matchesSearch && 
-                new Date(contest.startTime) <= now && 
+            return new Date(contest.startTime) <= now && 
                 (!contest.endTime || new Date(contest.endTime) >= now);
         }
         if (activeFilter === 'completed') {
             // Example filtering logic - adjust based on your data structure
-            return matchesSearch && contest.endTime && new Date(contest.endTime) < new Date();
+            return contest.endTime && new Date(contest.endTime) < new Date();
         }
-        return matchesSearch;
+        return true;
     });
 
     // Format date for display
@@ -142,7 +139,7 @@ const Contest = () => {
 
             {/* Page Content */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                {/* Header Section with Admin Button */}
+                {/* Header Section */}
                 <div className="text-center mb-12 relative">
                     <h1 className="text-4xl font-bold text-white mb-4">Available Contests</h1>
                     <p className="text-xl text-indigo-100 max-w-3xl mx-auto">
@@ -165,8 +162,8 @@ const Contest = () => {
                     )}
                 </div>
 
-                {/* Filters and Search */}
-                <div className="mb-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                {/* Filters */}
+                <div className="mb-8 flex justify-center">
                     <div className="flex flex-wrap gap-2">
                         <button 
                             onClick={() => setActiveFilter('all')}
@@ -209,21 +206,6 @@ const Contest = () => {
                             Completed
                         </button>
                     </div>
-
-                    <div className="relative w-full md:w-64">
-                        <input
-                            type="text"
-                            placeholder="Search contests..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full px-4 py-2 pr-10 rounded-lg border-0 bg-white/90 focus:ring-2 focus:ring-indigo-500 text-gray-800 placeholder-gray-500"
-                        />
-                        <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                            <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                            </svg>
-                        </div>
-                    </div>
                 </div>
 
                 {/* Loading State */}
@@ -241,15 +223,11 @@ const Contest = () => {
                         </svg>
                         <h3 className="mt-2 text-xl font-medium text-white">No contests found</h3>
                         <p className="mt-1 text-indigo-200">
-                            {searchQuery 
-                                ? `No contests match your search "${searchQuery}"`
-                                : "No contests are currently available in this category."
-                            }
+                            No contests are currently available in this category.
                         </p>
                         <div className="mt-6">
                             <button
                                 onClick={() => {
-                                    setSearchQuery('');
                                     setActiveFilter('all');
                                     getContests();
                                 }}

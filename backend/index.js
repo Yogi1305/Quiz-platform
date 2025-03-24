@@ -9,16 +9,17 @@ dotenv.config();
 
 const app =express();
 app.use(cors({
-    origin: 'https://quizzy13.vercel.app',
-    // origin:'http://localhost:5173',
+    // origin: 'https://quizzy13.vercel.app',
+    origin:'http://localhost:5179',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 
-    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'], 
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept','X-User-Id'], 
     credentials:true}));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(cookieParser());
 
 connectDb();
+
 
 app.use("/",userRoute);
 app.use("/post",postRoute);
