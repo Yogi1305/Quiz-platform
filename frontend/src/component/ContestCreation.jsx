@@ -35,9 +35,14 @@ const ContestCreation = () => {
   }, []);
   
   const fetchContests = async () => {
+    const userid=localStorage.getItem("userId");
     setIsLoading(true);
     try {
       const response = await axios.get(`${Baseurl}/api/contests`, {
+        headers: {
+          'Content-Type': 'application/json',
+                    'X-User-Id': userid
+        },
         withCredentials: true
       });
       setContests(response.data);
